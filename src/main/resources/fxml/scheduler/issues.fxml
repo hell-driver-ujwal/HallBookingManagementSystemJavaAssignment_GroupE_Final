@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.scheduler.IssueViewController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="S" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Scheduler" styleClass="lbl-username"/>
+                <Label text="Scheduler" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"       styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Hall Management" styleClass="nav-item"         onAction="#goToHallManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Availability"    styleClass="nav-item"         onAction="#goToAvailability"/>
+                <Button text="  Maintenance"     styleClass="nav-item"         onAction="#goToMaintenance"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Issues"       styleClass="nav-item, active" onAction="#goToIssues"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="My Assigned Issues" styleClass="lbl-page-title"/>
+                    <Label text="Issues assigned to you by the manager" styleClass="lbl-page-sub"/>
+                </VBox>
+                <ComboBox fx:id="statusFilter" styleClass="combo-box" prefWidth="140"
+                          promptText="Filter" onAction="#applyFilter"/>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="14">
+
+                    <!-- ── New assignment notification banner ── -->
+                    <VBox fx:id="notifPanel" visible="false" managed="false"
+                          style="-fx-background-color:#e3f2fd;-fx-border-color:#1976d2;
+                                 -fx-border-width:0 0 0 4;-fx-border-radius:6;
+                                 -fx-background-radius:6;-fx-padding:10 16 10 16;" spacing="6">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="🔔 New Assignments"
+                                   style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#0d47a1;"/>
+                            <Label fx:id="lblNotifBadge" text=""
+                                   style="-fx-background-color:#1976d2;-fx-text-fill:white;
+                                          -fx-background-radius:10;-fx-padding:2 8 2 8;
+                                          -fx-font-size:11px;-fx-font-weight:bold;"
+                                   visible="false" managed="false"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button text="Dismiss All" styleClass="btn-clear"
+                                    onAction="#handleDismissNotifications"
+                                    style="-fx-font-size:11px;-fx-padding:3 10 3 10;"/>
+                        </HBox>
+                        <ListView fx:id="notifList" prefHeight="80"
+                                  style="-fx-background-color:transparent;-fx-border-color:transparent;"/>
+                    </VBox>
+
+                    <!-- ── Assignments table ── -->
+                    <VBox styleClass="card" prefHeight="210">
+                        <TableView fx:id="assignTable" prefHeight="210" styleClass="table-view"
+                                   onMouseClicked="#onRowSelected">
+                            <columns>
+                                <TableColumn fx:id="colAssignId"   text="Assign ID"  prefWidth="90"/>
+                                <TableColumn fx:id="colIssueId"    text="Issue ID"   prefWidth="80"/>
+                                <TableColumn fx:id="colHall"       text="Hall"       prefWidth="80"/>
+                                <TableColumn fx:id="colTitle"      text="Title"      prefWidth="200"/>
+                                <TableColumn fx:id="colAssignedAt" text="Assigned"   prefWidth="140"/>
+                                <TableColumn fx:id="colStatus"     text="Status"     prefWidth="90"/>
+                                <TableColumn fx:id="colCompleted"  text="Completed"  prefWidth="140"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="No issues assigned to you." style="-fx-text-fill:#b0ada8;"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- ── Issue detail + notes panel ── -->
+                    <VBox styleClass="form-card" spacing="12">
+                        <Label text="Issue Detail" styleClass="form-section-title"/>
+
+                        <!-- Meta row -->
+                        <GridPane hgap="14" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="ISSUE ID / STATUS" styleClass="field-label"/>
+                                <Label fx:id="lblIssueId" text="—"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                            </VBox>
+                            <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="HALL" styleClass="field-label"/>
+                                <Label fx:id="lblHall" text="—"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                            </VBox>
+                            <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label text="CUSTOMER" styleClass="field-label"/>
+                                <Label fx:id="lblCustomer" text="—"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                            </VBox>
+                            <VBox spacing="3" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                <Label text="ASSIGNED AT" styleClass="field-label"/>
+                                <Label fx:id="lblAssignedAt" text="—"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                            </VBox>
+                        </GridPane>
+
+                        <!-- Description -->
+                        <VBox spacing="4">
+                            <Label text="Issue Description" styleClass="field-label"/>
+                            <TextArea fx:id="lblDescription" styleClass="field-textarea"
+                                      editable="false" prefHeight="60" wrapText="true"/>
+                        </VBox>
+
+                        <!-- Two manager notes side by side -->
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="📢  Manager's Note to Customer  (for your context — not editable)"
+                                       styleClass="field-label"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#1a6a3e;"/>
+                                <TextArea fx:id="lblCustomerNote" styleClass="field-textarea"
+                                          editable="false" prefHeight="70" wrapText="true"
+                                          style="-fx-background-color:#f0faf4;"/>
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="🔧  Manager's Instructions for You  (private)"
+                                       styleClass="field-label"
+                                       style="-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
+                                <TextArea fx:id="lblSchedulerInstructions" styleClass="field-textarea"
+                                          editable="false" prefHeight="70" wrapText="true"
+                                          style="-fx-background-color:#eff6ff;"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Scheduler resolution note to manager -->
+                        <VBox spacing="4">
+                            <Label text="📝  Your Resolution Note to Manager  (required — sent to manager on completion)"
+                                   styleClass="field-label"
+                                   style="-fx-font-weight:bold;-fx-text-fill:#6a1a1a;"/>
+                            <TextArea fx:id="fieldResolution" styleClass="field-textarea"
+                                      prefHeight="65" wrapText="true"
+                                      promptText="Describe what action you took to resolve this issue. This note will be sent to the manager."/>
+                        </VBox>
+
+                        <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+
+                        <HBox spacing="8" alignment="CENTER_RIGHT">
+                            <Button text="Clear"        styleClass="btn-clear"   onAction="#handleClear"/>
+                            <Button text="Mark as Done" styleClass="btn-primary" onAction="#handleMarkDone"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

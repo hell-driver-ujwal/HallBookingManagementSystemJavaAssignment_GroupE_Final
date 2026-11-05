@@ -1,0 +1,10 @@
+S001|U001|Hafiz Zulkifli|Administration|2024-01-01|true|NULL
+S002|U002|Siti Norazlina|Administration|2024-01-01|true|NULL
+S003|U003|Farid Bin Hassan|Scheduling|2024-01-15|true|S001
+S004|U004|Nur Hidayah|Scheduling|2024-02-01|true|S001
+S005|U005|Kevin Tan|Scheduling|2024-02-15|true|S002
+S006|U006|Zulaikha Ramli|Management|2024-01-10|true|S001
+S007|U007|David Lim|Management|2024-01-20|true|S002
+S008|U015|Manju Chhetri|Management|2026-03-14|true|S001
+S009|U017|Aashish Raj Nakarmi|management|2026-03-15|true|S001
+S010|U018|Rupesh BK|scheduling|2026-03-15|true|S001

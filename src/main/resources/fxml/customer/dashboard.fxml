@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.CustomerDashboardController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"      styleClass="nav-item, active" fx:id="navDashboard"   onAction="#goToDashboard"/>
+                <Button text="  Browse Halls"   styleClass="nav-item"         onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"    styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  My Issues"      styleClass="nav-item"         onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"     styleClass="nav-item"         onAction="#goToProfile"/>
+            </VBox>
+
+            <VBox style="-fx-padding: 8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- MAIN AREA -->
+    <center>
+        <VBox>
+            <!-- Top bar -->
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Dashboard" styleClass="lbl-page-title"/>
+                    <Label text="Welcome to Hall Symphony" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+
+            <!-- Content -->
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="16">
+                    <!-- 48-hour reminder banner -->
+                    <VBox fx:id="reminderBanner" visible="false" managed="false"
+                          style="-fx-background-color:#fff8e1;-fx-border-color:#f9a825;
+                                 -fx-border-width:0 0 0 4;-fx-border-radius:6;
+                                 -fx-background-radius:6;-fx-padding:10 16 10 16;">
+                        <Label fx:id="reminderText" text=""
+                               style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#5d4037;"
+                               wrapText="true"/>
+                    </VBox>
+
+                    <!-- Stat cards row -->
+                    <HBox spacing="14">
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="UPCOMING BOOKINGS" styleClass="stat-label"/>
+                            <Label fx:id="statUpcoming" text="0"  styleClass="stat-value"/>
+                            <Label text="confirmed events"        styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="TOTAL BOOKINGS" styleClass="stat-label"/>
+                            <Label fx:id="statTotal" text="0"    styleClass="stat-value"/>
+                            <Label text="all time"               styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="OPEN ISSUES" styleClass="stat-label"/>
+                            <Label fx:id="statIssues" text="0"   styleClass="stat-value"/>
+                            <Label text="pending resolution"      styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="TOTAL SPENT" styleClass="stat-label"/>
+                            <Label fx:id="statSpent" text="RM 0" styleClass="stat-value"/>
+                            <Label text="all confirmed bookings"  styleClass="stat-sub"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Upcoming bookings table -->
+                    <VBox styleClass="card" spacing="0">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;" alignment="CENTER_LEFT">
+                            <Label text="Upcoming Bookings" style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;" HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="View all →" onAction="#goToBookings"
+                                       style="-fx-text-fill:#2d7a50;-fx-font-size:12px;-fx-border-color:transparent;"/>
+                        </HBox>
+                        <TableView fx:id="upcomingTable" prefHeight="200" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colBookId"    text="Booking ID" prefWidth="90"/>
+                                <TableColumn fx:id="colHall"      text="Hall"       prefWidth="160"/>
+                                <TableColumn fx:id="colDate"      text="Date"       prefWidth="110"/>
+                                <TableColumn fx:id="colTime"      text="Time"       prefWidth="130"/>
+                                <TableColumn fx:id="colAmount"    text="Amount"     prefWidth="100"/>
+                                <TableColumn fx:id="colStatus"    text="Status"     prefWidth="90"/>
+                            </columns>
+                            <placeholder><Label text="No upcoming bookings." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

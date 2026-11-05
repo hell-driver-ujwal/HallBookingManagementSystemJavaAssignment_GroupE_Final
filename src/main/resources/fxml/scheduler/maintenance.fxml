@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.scheduler.MaintenanceController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER" style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="S" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Scheduler" styleClass="lbl-username"/>
+                <Label text="Scheduler" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"       styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Hall Management" styleClass="nav-item"         onAction="#goToHallManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Availability"    styleClass="nav-item"         onAction="#goToAvailability"/>
+                <Button text="  Maintenance"     styleClass="nav-item, active" onAction="#goToMaintenance"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Maintenance Schedule" styleClass="lbl-page-title"/>
+                    <Label text="Schedule and track hall maintenance operations" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="maintTable" VBox.vgrow="ALWAYS" styleClass="table-view"
+                               onMouseClicked="#onRowSelected">
+                        <columns>
+                            <TableColumn fx:id="colId"     text="ID"       prefWidth="80"/>
+                            <TableColumn fx:id="colHall"   text="Hall"     prefWidth="150"/>
+                            <TableColumn fx:id="colStart"  text="Start"    prefWidth="145"/>
+                            <TableColumn fx:id="colEnd"    text="End"      prefWidth="145"/>
+                            <TableColumn fx:id="colRemark" text="Remarks"  prefWidth="240"/>
+                            <TableColumn fx:id="colStatus" text="Status"   prefWidth="110"/>
+                        </columns>
+                        <placeholder><Label text="No maintenance records." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                    </TableView>
+                </VBox>
+                <VBox styleClass="form-card" spacing="12">
+                    <Label text="Schedule / Update Maintenance" styleClass="form-section-title"/>
+                    <GridPane hgap="12" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Hall" styleClass="field-label"/>
+                            <ComboBox fx:id="comboHall" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Start (yyyy-MM-dd HH:mm)" styleClass="field-label"/>
+                            <TextField fx:id="fieldStart" styleClass="field-input" promptText="2026-03-28 08:00"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <Label text="End (yyyy-MM-dd HH:mm)" styleClass="field-label"/>
+                            <TextField fx:id="fieldEnd" styleClass="field-input" promptText="2026-03-28 12:00"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <Label text="Update Status" styleClass="field-label"/>
+                            <ComboBox fx:id="comboStatus" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="4">
+                            <Label text="Remarks — describe the maintenance work" styleClass="field-label"/>
+                            <TextField fx:id="fieldRemarks" styleClass="field-input"
+                                       promptText="e.g. AC servicing and lighting check"/>
+                        </VBox>
+                    </GridPane>
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Clear"          styleClass="btn-clear"  onAction="#handleClear"/>
+                        <Button text="Delete"         styleClass="btn-delete" onAction="#handleDelete"/>
+                        <Button text="Update Status"  styleClass="btn-update" onAction="#handleUpdateStatus"/>
+                        <Button text="Schedule"       styleClass="btn-add"    onAction="#handleAdd"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

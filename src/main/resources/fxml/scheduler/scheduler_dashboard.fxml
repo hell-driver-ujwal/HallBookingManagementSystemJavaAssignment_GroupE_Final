@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.scheduler.SchedulerDashboardController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="S"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Scheduler" styleClass="lbl-username"/>
+                <Label text="Scheduler" styleClass="lbl-role"/>
+            </VBox>
+
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"        styleClass="nav-item, active" onAction="#goToDashboard"/>
+                <Button text="  Hall Management"  styleClass="nav-item"         onAction="#goToHallManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Availability"     styleClass="nav-item"         onAction="#goToAvailability"/>
+                <Button text="  Maintenance"      styleClass="nav-item"         onAction="#goToMaintenance"/>
+            </VBox>
+
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Dashboard" styleClass="lbl-page-title"/>
+                    <Label text="Hall Symphony — Scheduler Overview" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="16">
+
+                    <HBox spacing="14">
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="TOTAL HALLS"          styleClass="stat-label"/>
+                            <Label fx:id="statHalls"    text="0" styleClass="stat-value"/>
+                            <Label text="active halls"          styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="HALLS SCHEDULED"      styleClass="stat-label"/>
+                            <Label fx:id="statSlots"    text="0" styleClass="stat-value"/>
+                            <Label text="with weekly rules set" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="UPCOMING MAINTENANCE" styleClass="stat-label"/>
+                            <Label fx:id="statMaint"    text="0" styleClass="stat-value"/>
+                            <Label text="scheduled"             styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="BOOKINGS TODAY"       styleClass="stat-label"/>
+                            <Label fx:id="statToday"    text="0" styleClass="stat-value"/>
+                            <Label text="confirmed events"      styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="MY PENDING ISSUES"    styleClass="stat-label"/>
+                            <Label fx:id="statIssues"   text="0" styleClass="stat-value"/>
+                            <Label text="awaiting resolution"   styleClass="stat-sub"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Halls overview table -->
+                    <VBox styleClass="card">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;" alignment="CENTER_LEFT">
+                            <Label text="Halls Overview" style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;" HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="Manage halls →" onAction="#goToHallManagement"
+                                       style="-fx-text-fill:#2d7a50;-fx-font-size:12px;-fx-border-color:transparent;"/>
+                        </HBox>
+                        <TableView fx:id="hallsTable" prefHeight="200" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colId"       text="ID"          prefWidth="70"/>
+                                <TableColumn fx:id="colName"     text="Hall Name"   prefWidth="180"/>
+                                <TableColumn fx:id="colType"     text="Type"        prefWidth="120"/>
+                                <TableColumn fx:id="colCapacity" text="Capacity"    prefWidth="90"/>
+                                <TableColumn fx:id="colRate"     text="Rate/hr"     prefWidth="90"/>
+                                <TableColumn fx:id="colStatus"   text="Status"      prefWidth="80"/>
+                            </columns>
+                            <placeholder><Label text="No halls found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Upcoming maintenance table -->
+                    <VBox styleClass="card">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;" alignment="CENTER_LEFT">
+                            <Label text="Active Maintenance" style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;" HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="View all →" onAction="#goToMaintenance"
+                                       style="-fx-text-fill:#2d7a50;-fx-font-size:12px;-fx-border-color:transparent;"/>
+                        </HBox>
+                        <TableView fx:id="maintTable" prefHeight="160" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="mColId"     text="ID"       prefWidth="70"/>
+                                <TableColumn fx:id="mColHall"   text="Hall"     prefWidth="140"/>
+                                <TableColumn fx:id="mColStart"  text="Start"    prefWidth="140"/>
+                                <TableColumn fx:id="mColEnd"    text="End"      prefWidth="140"/>
+                                <TableColumn fx:id="mColRemark" text="Remarks"  prefWidth="200"/>
+                                <TableColumn fx:id="mColStatus" text="Status"   prefWidth="100"/>
+                            </columns>
+                            <placeholder><Label text="No active maintenance." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

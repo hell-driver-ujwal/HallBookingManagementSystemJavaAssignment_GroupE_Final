@@ -1,0 +1,5 @@
+PD001|P022|Online Transfer|King Birendra|CIMB Bank|HBS-20260315-182540
+PD002|P023|Credit Card|King Birendra|**** **** **** 1233|12/27
+PD003|P024|Online Transfer|King Birendra|CIMB Bank|HBS-20260315-328406
+PD004|P027|Online Transfer|Customer|CIMB Bank|HBS-20260316-077687
+PD005|P028|Credit Card|Customer|**** **** **** 1234|08/27

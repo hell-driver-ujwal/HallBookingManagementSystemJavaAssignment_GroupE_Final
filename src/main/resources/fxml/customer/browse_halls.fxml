@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.BrowseController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item, active" onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item"         onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item"         onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Browse Halls" styleClass="lbl-page-title"/>
+                    <Label text="Select a hall and book your event" styleClass="lbl-page-sub"/>
+                </VBox>
+                <ComboBox fx:id="typeFilter" styleClass="combo-box" prefWidth="160"
+                          promptText="Filter by type" onAction="#applyFilter"/>
+                <TextField fx:id="searchField" styleClass="search-field"
+                           promptText="Search halls..." onKeyReleased="#handleSearch"/>
+            </HBox>
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox styleClass="content-area" spacing="14">
+
+                <!-- Hall table -->
+                <VBox styleClass="card" prefHeight="220">
+                    <TableView fx:id="hallTable" prefHeight="220" styleClass="table-view"
+                               onMouseClicked="#onHallSelected">
+                        <columns>
+                            <TableColumn fx:id="colId"   text="Hall ID"     prefWidth="80"/>
+                            <TableColumn fx:id="colName" text="Hall Name"   prefWidth="170"/>
+                            <TableColumn fx:id="colType" text="Type"        prefWidth="130"/>
+                            <TableColumn fx:id="colCap"  text="Capacity"    prefWidth="90"/>
+                            <TableColumn fx:id="colRate" text="Rate / Hour" prefWidth="110"/>
+                            <TableColumn fx:id="colDesc" text="Description" prefWidth="250"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No halls available." style="-fx-text-fill:#b0ada8;"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+
+                <!-- Booking panel (visible after selecting a hall) -->
+                <VBox fx:id="bookingPanel" styleClass="form-card" spacing="12"
+                      visible="false" managed="false">
+
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label fx:id="lblSelectedHall" text="Select a hall above to book"
+                               style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"
+                               HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <!-- Booked & Maintenance times for this hall -->
+                    <VBox fx:id="unavailBox" spacing="4" VBox.vgrow="ALWAYS">
+                        <Label text="Unavailable times for this hall:" styleClass="field-label"/>
+                        <TextArea fx:id="unavailInfo" styleClass="field-textarea"
+                                  editable="false" prefHeight="220" maxHeight="10000" minHeight="350" wrapText="true"/>
+                    </VBox>
+
+                    <GridPane hgap="14" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <!-- Date pickers -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Event Start Date" styleClass="field-label"/>
+                            <DatePicker fx:id="dateStart" styleClass="date-picker"
+                                        maxWidth="10000" onAction="#updateEstimate"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Event End Date" styleClass="field-label"/>
+                            <DatePicker fx:id="dateEnd" styleClass="date-picker"
+                                        maxWidth="10000" onAction="#updateEstimate"/>
+                        </VBox>
+
+                        <!-- Start time spinners -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Start Time  (24h  HH : MM)" styleClass="field-label"/>
+                            <HBox spacing="6" alignment="CENTER_LEFT">
+                                <Spinner fx:id="startHour" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                                <Label text=":"
+                                       style="-fx-font-size:17px;-fx-font-weight:bold;-fx-text-fill:#555;"/>
+                                <Spinner fx:id="startMin" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- End time spinners -->
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="End Time  (24h  HH : MM)" styleClass="field-label"/>
+                            <HBox spacing="6" alignment="CENTER_LEFT">
+                                <Spinner fx:id="endHour" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                                <Label text=":"
+                                       style="-fx-font-size:17px;-fx-font-weight:bold;-fx-text-fill:#555;"/>
+                                <Spinner fx:id="endMin" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Payment method -->
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                              GridPane.columnSpan="2">
+                            <Label text="Payment Method" styleClass="field-label"/>
+                            <ComboBox fx:id="comboPayment" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                    </GridPane>
+
+                    <!-- Live conflict / past-date warning -->
+                    <Label fx:id="conflictLabel" text="" wrapText="true"
+                           style="-fx-text-fill:#c0392b;-fx-font-size:11.5px;-fx-font-weight:bold;"
+                           visible="false" managed="false"/>
+
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label fx:id="lblEstimate" text=""
+                               style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;"
+                               HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+                    </HBox>
+
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Cancel"          styleClass="btn-clear"  onAction="#cancelBooking"/>
+                        <Button text="Confirm Booking" styleClass="btn-primary" onAction="#handleBook"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

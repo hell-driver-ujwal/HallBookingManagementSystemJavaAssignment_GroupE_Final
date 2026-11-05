@@ -1,0 +1,17 @@
+I001|C001|B001|H001|Microphone not working|The main microphone on stage was not functioning during our event|2026-03-23 18:30|OPEN
+I002|C002|B002|H002|Air conditioning too cold|The AC was set too low and guests were uncomfortable|2026-03-21 17:00|IN_PROGRESS
+I003|C003|B003|H003|Projector display error|Projector kept disconnecting from laptop throughout the meeting|2026-03-23 14:00|OPEN
+I004|C001|B004|H002|Table cloth stains found|Several table cloths had visible stains on them|2026-02-16 16:00|DONE
+I005|C004|B006|H004|Whiteboard marker dried|All whiteboard markers were dried and unusable|2026-02-10 15:00|DONE
+I006|C002|B008|H002|Insufficient chairs|Booked for 60 pax but only 40 chairs were set up|2026-01-19 14:00|CLOSED
+I007|C003|B007|H005|Catering setup delay|Catering team arrived 1 hour late causing delay to the event|2026-01-25 16:00|DONE
+I008|C005|B012|H001|Lighting flickering|Stage lighting was flickering during the entire event|2026-03-12 17:00|DONE|MEDIUM
+I009|C004|B010|H001|Parking insufficient|Not enough parking space for our 200 guests|2026-03-05 18:00|CLOSED
+I010|C001|B009|H003|WiFi not accessible|WiFi password provided was incorrect|2026-01-12 10:30|DONE
+I011|C008|B015|H001|Air conditioning fault|AC unit in the main hall was not cooling properly|2026-03-14 22:07|OPEN
+I012|C008|B016|H006|there is a issue|why is the ac not working|2026-03-15 09:43|DONE
+I013|C007|B013|H004|there was a issue|i wonder what it is|2026-03-15 11:48|DONE
+I014|C008|B019|H005|mice problem|There was a problem with the mike, you should check it, before its too late|2026-03-15 15:21|DONE
+I015|C008|B023|H009|Some Issue|I have found issues, Just testing|2026-03-15 20:06|OPEN
+I016|C009|B028|H004|AC Problem|Hot Air.|2026-03-16 09:10|OPEN|HIGH
+I017|C008|B031|H009|there is a sevear isssue|fix it immidetly|2026-03-16 11:09|DONE|HIGH

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.admin.AdminDashboardController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="A" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Admin" styleClass="lbl-username"/>
+                <Label text="Administrator" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"           styleClass="nav-item, active" onAction="#goToDashboard"/>
+                <Button text="  Staff Management"    styleClass="nav-item"         onAction="#goToStaffManagement"/>
+                <Button text="  Customer Management" styleClass="nav-item"         onAction="#goToUserManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  All Bookings"        styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  Sales Dashboard"     styleClass="nav-item"         onAction="#goToSales"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Admin Dashboard" styleClass="lbl-page-title"/>
+                    <Label text="Hall Symphony — System Overview" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="16">
+
+                    <!-- Stat cards -->
+                    <HBox spacing="14">
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="TOTAL USERS"        styleClass="stat-label"/>
+                            <Label fx:id="statUsers"   text="0" styleClass="stat-value"/>
+                            <Label text="registered accounts" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="TOTAL CUSTOMERS"    styleClass="stat-label"/>
+                            <Label fx:id="statCustomers" text="0" styleClass="stat-value"/>
+                            <Label text="active customers"    styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="STAFF ACCOUNTS"     styleClass="stat-label"/>
+                            <Label fx:id="statStaff"   text="0" styleClass="stat-value"/>
+                            <Label text="schedulers + managers" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="BLOCKED USERS"      styleClass="stat-label"/>
+                            <Label fx:id="statBlocked" text="0" styleClass="stat-value"
+                                   style="-fx-text-fill:#c0392b;"/>
+                            <Label text="inactive accounts"   styleClass="stat-sub"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Password Reset Tool -->
+                    <VBox styleClass="form-card" spacing="10">
+                        <Label text="🔑  Password Reset Tool"
+                               style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                        <Label text="Reset any user's password directly. Use their User ID (e.g. U008)."
+                               style="-fx-font-size:11px;-fx-text-fill:#8a8880;"/>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="User ID" styleClass="field-label"/>
+                                <TextField fx:id="fieldResetUserId" styleClass="field-input"
+                                           promptText="e.g. U008"/>
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="New Password (min 6 chars)" styleClass="field-label"/>
+                                <PasswordField fx:id="fieldResetPassword" styleClass="field-input"
+                                               promptText="New password"/>
+                            </VBox>
+                            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                                <Label text=" " styleClass="field-label"/>
+                                <Button text="Reset Password" styleClass="btn-update"
+                                        onAction="#handlePasswordReset"/>
+                            </VBox>
+                        </HBox>
+                        <Label fx:id="lblResetResult" text="" wrapText="true"
+                               style="-fx-font-size:11px;"/>
+                    </VBox>
+
+                    <!-- Staff accounts table -->
+                    <VBox styleClass="card">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;"
+                              alignment="CENTER_LEFT">
+                            <Label text="Staff Accounts"
+                                   style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="Manage staff →" onAction="#goToStaffManagement"
+                                       style="-fx-text-fill:#2d7a50;-fx-font-size:12px;-fx-border-color:transparent;"/>
+                        </HBox>
+                        <TableView fx:id="staffTable" prefHeight="180" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colStaffId"  text="Staff ID"   prefWidth="80"/>
+                                <TableColumn fx:id="colName"     text="Full Name"  prefWidth="160"/>
+                                <TableColumn fx:id="colDept"     text="Department" prefWidth="120"/>
+                                <TableColumn fx:id="colEmail"    text="Email"      prefWidth="200"/>
+                                <TableColumn fx:id="colHireDate" text="Hire Date"  prefWidth="100"/>
+                                <TableColumn fx:id="colActive"   text="Status"     prefWidth="80"/>
+                            </columns>
+                            <placeholder><Label text="No staff found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Recent bookings -->
+                    <VBox styleClass="card">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;"
+                              alignment="CENTER_LEFT">
+                            <Label text="Recent Bookings"
+                                   style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="View all →" onAction="#goToBookings"
+                                       style="-fx-text-fill:#2d7a50;-fx-font-size:12px;-fx-border-color:transparent;"/>
+                        </HBox>
+                        <TableView fx:id="bookingsTable" prefHeight="160" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="bColId"     text="Booking ID"  prefWidth="90"/>
+                                <TableColumn fx:id="bColCust"   text="Customer"    prefWidth="120"/>
+                                <TableColumn fx:id="bColHall"   text="Hall"        prefWidth="140"/>
+                                <TableColumn fx:id="bColDate"   text="Event Date"  prefWidth="110"/>
+                                <TableColumn fx:id="bColAmount" text="Amount"      prefWidth="90"/>
+                                <TableColumn fx:id="bColStatus" text="Status"      prefWidth="90"/>
+                            </columns>
+                            <placeholder><Label text="No bookings found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Activity Log -->
+                    <VBox styleClass="card">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;"
+                              alignment="CENTER_LEFT">
+                            <Label text="📋  Recent System Activity (last 20 actions)"
+                                   style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"
+                                   HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                        <TableView fx:id="activityTable" prefHeight="200" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="aColTime"    text="Timestamp"  prefWidth="140"/>
+                                <TableColumn fx:id="aColUser"    text="User ID"    prefWidth="80"/>
+                                <TableColumn fx:id="aColRole"    text="Role"       prefWidth="100"/>
+                                <TableColumn fx:id="aColAction"  text="Action"     prefWidth="160"/>
+                                <TableColumn fx:id="aColDetails" text="Details"    prefWidth="360"/>
+                            </columns>
+                            <placeholder><Label text="No activity recorded yet." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

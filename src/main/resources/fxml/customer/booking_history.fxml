@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.BookingHistoryController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item"         onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item, active" onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item"         onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item"         onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="My Bookings" styleClass="lbl-page-title"/>
+                    <Label text="View, export receipts and manage your hall bookings"
+                           styleClass="lbl-page-sub"/>
+                </VBox>
+                <ComboBox fx:id="filterStatus" styleClass="combo-box" prefWidth="150"
+                          promptText="Filter status" onAction="#applyFilter"/>
+            </HBox>
+
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+
+                <!-- Bookings table -->
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" styleClass="table-view"
+                               onMouseClicked="#onRowSelected">
+                        <columns>
+                            <TableColumn fx:id="colId"     text="Booking ID" prefWidth="90"/>
+                            <TableColumn fx:id="colHall"   text="Hall"       prefWidth="150"/>
+                            <TableColumn fx:id="colDate"   text="Event Date" prefWidth="105"/>
+                            <TableColumn fx:id="colTime"   text="Time"       prefWidth="130"/>
+                            <TableColumn fx:id="colHours"  text="Hours"      prefWidth="60"/>
+                            <TableColumn fx:id="colAmount" text="Amount"     prefWidth="100"/>
+                            <TableColumn fx:id="colPaid"   text="Payment"    prefWidth="110"/>
+                            <TableColumn fx:id="colStatus" text="Status"     prefWidth="90"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No bookings found." style="-fx-text-fill:#b0ada8;"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+
+                <!-- Detail + action panel -->
+                <VBox styleClass="form-card" spacing="10">
+                    <Label text="Booking Details" styleClass="form-section-title"/>
+
+                    <GridPane hgap="14" vgap="7">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <HBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Booking ID:" styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detBookingId" text="—"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+                        <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Hall:"        styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detHall"     text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+
+                        <HBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Event Start:" styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detStart"    text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+                        <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="Event End:"   styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detEnd"      text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+
+                        <HBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label text="Duration:"    styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detDuration" text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+                        <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label text="Amount:"      styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detAmount"   text="—"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;"/>
+                        </HBox>
+
+                        <HBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                            <Label text="Payment:"     styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detMethod"   text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+                        <HBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                            <Label text="Receipt No:"  styleClass="field-label" minWidth="100"/>
+                            <Label fx:id="detReceipt"  text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+                    </GridPane>
+
+                    <Label fx:id="cancelError" styleClass="lbl-error" text="" wrapText="true"/>
+
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Export Receipt (.txt)" styleClass="btn-update"
+                                onAction="#handleExportReceipt"/>
+                        <Button text="Re-book"               styleClass="btn-update"
+                                onAction="#handleRebook"/>
+                        <Button text="Cancel Booking"        styleClass="btn-delete"
+                                onAction="#handleCancel"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

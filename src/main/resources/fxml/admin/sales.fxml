@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.admin.AdminSalesDashboardController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar"
+              style="-fx-background-color:linear-gradient(to bottom,#111e40 0%,#0a1228 100%);">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;
+                                  -fx-background-color:linear-gradient(to bottom right,#1a2850,#2d4080);">
+                    <Label text="A" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Admin" styleClass="lbl-username"/>
+                <Label text="Administrator"
+                       style="-fx-text-fill:#6a9fd8;-fx-background-color:rgba(106,159,216,0.15);
+                              -fx-background-radius:20;-fx-padding:2 10 2 10;-fx-font-size:10px;"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"           styleClass="nav-item" onAction="#goToDashboard"/>
+                <Button text="  Staff Management"    styleClass="nav-item" onAction="#goToStaffManagement"/>
+                <Button text="  Customer Management" styleClass="nav-item" onAction="#goToUserManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  All Bookings"        styleClass="nav-item" onAction="#goToBookings"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Sales Dashboard"
+                        style="-fx-background-color:linear-gradient(to right,#1a3a8a,#2d4faa);
+                               -fx-text-fill:white;-fx-font-weight:bold;-fx-padding:9 12 9 12;
+                               -fx-background-radius:7;-fx-cursor:hand;-fx-alignment:center-left;
+                               -fx-pref-width:10000;-fx-border-color:transparent;-fx-font-size:12.5px;"
+                        onAction="#goToSales"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <!-- Top bar — navy accent -->
+            <HBox style="-fx-background-color:white;-fx-padding:13 20 13 20;
+                         -fx-border-color:transparent transparent #1a2850 transparent;
+                         -fx-border-width:0 0 2 0;"
+                  alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Financial Dashboard"
+                               style="-fx-text-fill:#1a2850;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                        <Label text="ADMIN"
+                               style="-fx-background-color:#1a2850;-fx-text-fill:white;
+                                      -fx-font-size:9px;-fx-font-weight:bold;-fx-background-radius:4;
+                                      -fx-padding:2 6 2 6;"/>
+                    </HBox>
+                    <Label text="Full financial overview with SST breakdown, hall rankings and user activity"
+                           styleClass="lbl-page-sub"/>
+                </VBox>
+                <ComboBox fx:id="yearFilter"  styleClass="combo-box" prefWidth="90"  onAction="#applyFilter"/>
+                <ComboBox fx:id="monthFilter" styleClass="combo-box" prefWidth="150" onAction="#applyFilter"/>
+                <Button text="⬇  Export Financial Report"
+                        style="-fx-background-color:#1a2850;-fx-text-fill:white;-fx-font-size:12px;
+                               -fx-font-weight:bold;-fx-padding:8 16 8 16;-fx-background-radius:7;
+                               -fx-cursor:hand;-fx-border-color:transparent;"
+                        onAction="#handleExport"/>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="14">
+
+                    <!-- ── STAT CARDS ROW 1 — Operational (shared with manager) ── -->
+                    <HBox spacing="10">
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="SELECTED PERIOD" styleClass="stat-label"/>
+                            <Label fx:id="statPeriod"  text="RM 0.00" styleClass="stat-value"/>
+                            <Label text="filtered revenue" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="THIS WEEK"      styleClass="stat-label"/>
+                            <Label fx:id="statWeek"    text="RM 0.00" styleClass="stat-value"/>
+                            <Label text="current week"   styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="THIS MONTH"     styleClass="stat-label"/>
+                            <Label fx:id="statMonth"   text="RM 0.00" styleClass="stat-value"/>
+                            <Label text="confirmed only" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="THIS YEAR"      styleClass="stat-label"/>
+                            <Label fx:id="statYear"    text="RM 0.00" styleClass="stat-value"/>
+                            <Label text="year to date"   styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="CANCEL RATE"    styleClass="stat-label"/>
+                            <Label fx:id="statCancelRate" text="0.0%" styleClass="stat-value"
+                                   style="-fx-text-fill:#c0392b;"/>
+                            <Label text="of all bookings" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="CONFIRMED"      styleClass="stat-label"/>
+                            <Label fx:id="statTotalBookings" text="0" styleClass="stat-value"/>
+                            <Label text="total bookings" styleClass="stat-sub"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── STAT CARDS ROW 2 — SST Breakdown (Admin exclusive) ── -->
+                    <HBox spacing="10">
+                        <Label text="💰  Tax &amp; Financial Summary (All Time)"
+                               style="-fx-font-size:11px;-fx-font-weight:bold;-fx-text-fill:#1a2850;
+                                      -fx-padding:4 0 0 4;" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                    <HBox spacing="10">
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#1a2850;-fx-border-width:0 0 0 3;">
+                            <Label text="GROSS REVENUE" styleClass="stat-label"/>
+                            <Label fx:id="statGrossTotal" text="RM 0.00" styleClass="stat-value"
+                                   style="-fx-text-fill:#1a2850;"/>
+                            <Label text="before SST deduction" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#c07020;-fx-border-width:0 0 0 3;
+                                     -fx-background-color:#fdf6f0;">
+                            <Label text="SST @ 8% (SERVICE TAX)" styleClass="stat-label"/>
+                            <Label fx:id="statSstAmount" text="RM 0.00" styleClass="stat-value"
+                                   style="-fx-text-fill:#c07020;"/>
+                            <Label text="Malaysia SST 2024" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#1a2850;-fx-border-width:0 0 0 3;
+                                     -fx-background-color:#f0f4fb;">
+                            <Label text="NET REVENUE (AFTER SST)" styleClass="stat-label"/>
+                            <Label fx:id="statNetTotal" text="RM 0.00" styleClass="stat-value"
+                                   style="-fx-text-fill:#1a2850;"/>
+                            <Label text="actual earnings" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#4a7abf;-fx-border-width:0 0 0 3;">
+                            <Label text="TOTAL USERS" styleClass="stat-label"/>
+                            <Label fx:id="statTotalUsers" text="0" styleClass="stat-value"
+                                   style="-fx-text-fill:#1a2850;"/>
+                            <Label text="registered accounts" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#4a7abf;-fx-border-width:0 0 0 3;">
+                            <Label text="ACTIVE CUSTOMERS" styleClass="stat-label"/>
+                            <Label fx:id="statActiveCustomers" text="0" styleClass="stat-value"
+                                   style="-fx-text-fill:#1a2850;"/>
+                            <Label text="can make bookings" styleClass="stat-sub"/>
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="3" HBox.hgrow="ALWAYS"
+                              style="-fx-border-color:#4a7abf;-fx-border-width:0 0 0 3;">
+                            <Label text="NEW THIS MONTH" styleClass="stat-label"/>
+                            <Label fx:id="statNewThisMonth" text="0" styleClass="stat-value"
+                                   style="-fx-text-fill:#1a2850;"/>
+                            <Label text="new registrations" styleClass="stat-sub"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── ROW 1: Line Chart + Pie Chart ── -->
+                    <HBox spacing="14">
+                        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="0">
+                            <Label text="Revenue Trend"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <LineChart fx:id="revenueLineChart" prefHeight="200"
+                                       legendVisible="false" style="-fx-padding:0 8 4 8;">
+                                <xAxis><CategoryAxis/></xAxis>
+                                <yAxis><NumberAxis label="RM"/></yAxis>
+                            </LineChart>
+                        </VBox>
+                        <VBox styleClass="card" prefWidth="290" spacing="0">
+                            <Label text="Revenue by Hall Type"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <PieChart fx:id="hallTypePieChart" prefHeight="190" prefWidth="290"
+                                      legendVisible="false" labelsVisible="false"
+                                      style="-fx-padding:0 4 0 4;"/>
+                            <VBox fx:id="pieLegend" spacing="5"
+                                  style="-fx-padding:4 14 12 14;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── ROW 2: Monthly Bar + Hall Ranking (Admin exclusive) ── -->
+                    <HBox spacing="14">
+                        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="0">
+                            <Label text="Monthly Revenue vs Bookings"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <BarChart fx:id="monthlyBarChart" prefHeight="200"
+                                      categoryGap="4" style="-fx-padding:0 8 4 8;">
+                                <xAxis><CategoryAxis/></xAxis>
+                                <yAxis><NumberAxis/></yAxis>
+                            </BarChart>
+                        </VBox>
+                        <VBox styleClass="card" prefWidth="300" spacing="0">
+                            <Label text="🏆  Top Halls by Revenue"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <BarChart fx:id="hallRankingChart" prefHeight="200" prefWidth="300"
+                                      legendVisible="false" categoryGap="4"
+                                      style="-fx-padding:0 4 4 4;">
+                                <xAxis><NumberAxis label="Revenue (RM)"/></xAxis>
+                                <yAxis><CategoryAxis/></yAxis>
+                            </BarChart>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── ROW 3: Peak Hours + User Activity (Admin exclusive) ── -->
+                    <HBox spacing="14">
+                        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="0">
+                            <Label text="Peak Booking Hours"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <BarChart fx:id="peakHoursChart" prefHeight="190"
+                                      legendVisible="false" categoryGap="2"
+                                      style="-fx-padding:0 8 4 8;">
+                                <xAxis><CategoryAxis/></xAxis>
+                                <yAxis><NumberAxis label="Bookings"/></yAxis>
+                            </BarChart>
+                        </VBox>
+                        <VBox styleClass="card" prefWidth="320" spacing="0">
+                            <Label text="👥  Customer Registrations vs Bookings"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2850;-fx-padding:10 14 4 14;"/>
+                            <BarChart fx:id="userActivityChart" prefHeight="190" prefWidth="320"
+                                      categoryGap="3" style="-fx-padding:0 4 4 4;">
+                                <xAxis><CategoryAxis/></xAxis>
+                                <yAxis><NumberAxis/></yAxis>
+                            </BarChart>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── TABBED TABLE PANEL (4 tabs for Admin) ── -->
+                    <VBox styleClass="card" spacing="0">
+                        <!-- Tab bar — navy accent -->
+                        <HBox style="-fx-background-color:white;
+                                     -fx-border-color:transparent transparent #1a2850 transparent;
+                                     -fx-border-width:0 0 2 0;-fx-padding:0 16 0 16;"
+                              spacing="0">
+                            <Label text="Data Tables:" style="-fx-font-size:11px;-fx-text-fill:#8a8880;-fx-padding:10 12 10 0;"/>
+                            <Button fx:id="tabWeekly"  text="Weekly Breakdown"  onAction="#showWeeklyTab"/>
+                            <Button fx:id="tabMonthly" text="Monthly + SST"     onAction="#showMonthlyTab"/>
+                            <Button fx:id="tabDetails" text="Booking Details"   onAction="#showDetailsTab"/>
+                            <Button fx:id="tabHalls"   text="🏆 Hall Rankings"  onAction="#showHallsTab"/>
+                        </HBox>
+
+                        <!-- Weekly panel -->
+                        <VBox fx:id="panelWeekly" spacing="0">
+                            <TableView fx:id="weeklyTable" prefHeight="200" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="wColWeek"    text="Week"       prefWidth="80"/>
+                                    <TableColumn fx:id="wColRange"   text="Date Range" prefWidth="200"/>
+                                    <TableColumn fx:id="wColCount"   text="Bookings"   prefWidth="100"/>
+                                    <TableColumn fx:id="wColRevenue" text="Revenue"    prefWidth="200"/>
+                                </columns>
+                                <placeholder><Label text="No data." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Monthly + SST panel -->
+                        <VBox fx:id="panelMonthly" spacing="0" visible="false" managed="false">
+                            <TableView fx:id="monthlyTable" prefHeight="200" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="mColMonth"   text="Month"       prefWidth="150"/>
+                                    <TableColumn fx:id="mColCount"   text="Bookings"    prefWidth="80"/>
+                                    <TableColumn fx:id="mColRevenue" text="Revenue"     prefWidth="120"/>
+                                    <TableColumn fx:id="mColGross"   text="Gross"       prefWidth="110"/>
+                                    <TableColumn fx:id="mColSst"     text="SST (8%)"    prefWidth="110"/>
+                                    <TableColumn fx:id="mColNet"     text="Net Revenue" prefWidth="110"/>
+                                </columns>
+                                <placeholder><Label text="No data." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Details panel -->
+                        <VBox fx:id="panelDetails" spacing="0" visible="false" managed="false">
+                            <TableView fx:id="detailTable" prefHeight="200" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="dColId"     text="Booking ID"  prefWidth="90"/>
+                                    <TableColumn fx:id="dColHall"   text="Hall"        prefWidth="140"/>
+                                    <TableColumn fx:id="dColType"   text="Type"        prefWidth="110"/>
+                                    <TableColumn fx:id="dColDate"   text="Event Date"  prefWidth="100"/>
+                                    <TableColumn fx:id="dColHours"  text="Hours"       prefWidth="60"/>
+                                    <TableColumn fx:id="dColAmount" text="Amount"      prefWidth="110"/>
+                                    <TableColumn fx:id="dColMethod" text="Payment"     prefWidth="110"/>
+                                </columns>
+                                <placeholder><Label text="No bookings." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Hall Rankings panel -->
+                        <VBox fx:id="panelHalls" spacing="0" visible="false" managed="false">
+                            <TableView fx:id="hallsTable" prefHeight="200" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="hColRank"     text="#"           prefWidth="40"/>
+                                    <TableColumn fx:id="hColHall"     text="Hall Name"   prefWidth="180"/>
+                                    <TableColumn fx:id="hColType"     text="Type"        prefWidth="120"/>
+                                    <TableColumn fx:id="hColBookings" text="Bookings"    prefWidth="80"/>
+                                    <TableColumn fx:id="hColRevenue"  text="Revenue"     prefWidth="130"/>
+                                    <TableColumn fx:id="hColShare"    text="Share %"     prefWidth="80"/>
+                                </columns>
+                                <placeholder><Label text="No data." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

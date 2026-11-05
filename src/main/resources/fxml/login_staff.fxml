@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.hallbooking.controllers.LoginStaffController"
+           styleClass="login-root"
+           stylesheets="@../css/app.css"
+           prefWidth="900" prefHeight="600">
+
+    <VBox alignment="CENTER" spacing="20">
+
+        <!-- Portal toggle -->
+        <HBox alignment="CENTER" spacing="0"
+              style="-fx-background-color:rgba(255,255,255,0.12);-fx-background-radius:10;-fx-padding:4;">
+            <Button text="Customer Login" styleClass="portal-toggle-btn"
+                    onAction="#switchToCustomer"
+                    style="-fx-background-color:transparent;-fx-text-fill:rgba(255,255,255,0.65);-fx-font-weight:normal;-fx-background-radius:7;-fx-border-color:transparent;-fx-padding:8 22 8 22;"/>
+            <Button text="Staff Login" styleClass="portal-toggle-btn, active"
+                    onAction="#switchToStaff"
+                    style="-fx-background-color:#ffffff;-fx-text-fill:#1a2820;-fx-font-weight:bold;-fx-background-radius:7;-fx-border-color:transparent;-fx-padding:8 22 8 22;"/>
+        </HBox>
+
+        <VBox styleClass="login-card" alignment="CENTER" spacing="0" maxWidth="380">
+
+            <StackPane maxWidth="64" maxHeight="64" minWidth="64" minHeight="64"
+                       style="-fx-background-color:linear-gradient(to bottom right,#1a2820,#2d3a30);-fx-background-radius:16;"
+                       alignment="CENTER">
+                <Label text="HS" style="-fx-text-fill:white;-fx-font-size:22px;-fx-font-weight:bold;"/>
+            </StackPane>
+            <Label text="Hall Symphony" styleClass="lbl-login-title" alignment="CENTER">
+                <VBox.margin><Insets top="12" bottom="2"/></VBox.margin>
+            </Label>
+            <Label text="Staff Portal" styleClass="lbl-login-sub" alignment="CENTER">
+                <VBox.margin><Insets bottom="24"/></VBox.margin>
+            </Label>
+
+            <VBox spacing="5">
+                <Label text="Staff email" styleClass="field-label"/>
+                <TextField fx:id="emailField" styleClass="field-input"
+                           promptText="staff@hallsymphony.com" prefWidth="300"/>
+                <VBox.margin><Insets bottom="12"/></VBox.margin>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Password" styleClass="field-label"/>
+                <PasswordField fx:id="passwordField" styleClass="field-input"
+                               promptText="Enter your password" prefWidth="300"/>
+                <VBox.margin><Insets bottom="6"/></VBox.margin>
+            </VBox>
+
+            <Label fx:id="errorLabel" styleClass="lbl-error" text=""
+                   maxWidth="300" wrapText="true" alignment="CENTER">
+                <VBox.margin><Insets bottom="8"/></VBox.margin>
+            </Label>
+
+            <Button text="Sign In" styleClass="btn-login" onAction="#handleLogin">
+                <VBox.margin><Insets bottom="16"/></VBox.margin>
+            </Button>
+
+            <Label text="Contact your administrator if you cannot log in."
+                   styleClass="lbl-login-sub" alignment="CENTER" wrapText="true" maxWidth="280"/>
+        </VBox>
+    </VBox>
+</StackPane>

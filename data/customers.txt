@@ -1,0 +1,9 @@
+C001|U008|Ahmad Rizal|No 12 Jalan Bukit Bintang Kuala Lumpur|0181234567
+C002|U009|Nurul Aisyah|No 5 Jalan Ampang Kuala Lumpur|0182345678
+C003|U010|Lim Wei Xian|No 88 Jalan Cheras Selangor|0183456789
+C004|U011|Priya Nair|No 23 Jalan Utama Penang|0184567890
+C005|U012|Raj Kumar|No 47 Jalan Pudu Kuala Lumpur|0185678901
+C006|U013|Anu Chhetri|Pokhara-14 Gandaki Province|0847729970
+C007|U014|Manju Chhetri|Pokhara-16 Gandaki Province|0123456780
+C008|U016|King Birendra|Kathmandu-01 Bagmati Province|0123456789
+C009|U019|Customer Test|Pokhara|0123456789

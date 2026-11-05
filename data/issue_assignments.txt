@@ -1,0 +1,15 @@
+IA001|I001|S003|S006|2026-03-24 09:00|Technician scheduled to inspect audio system||NULL
+IA002|I002|S004|S006|2026-03-22 09:00|AC settings have been adjusted and noted for future events||2026-03-22 11:00
+IA003|I004|S004|S007|2026-02-17 09:00|Laundry service called and new table cloths have been ordered||2026-02-18 14:00
+IA004|I005|S005|S007|2026-02-11 09:00|New whiteboard markers placed in all meeting rooms||2026-02-11 11:00
+IA005|I006|S004|S006|2026-01-20 09:00|Additional chairs arranged and apologies sent to customer||2026-01-20 11:00
+IA006|I007|S003|S007|2026-01-26 09:00|Catering team has been penalized and customer compensated||2026-01-26 11:00
+IA007|I008|S003|S006|2026-03-13 09:00|Electrician scheduled to inspect and replace stage lighting||NULL
+IA008|I009|S003|S007|2026-03-06 09:00|Overflow parking will be arranged for all future large events||2026-03-06 14:00
+IA009|I010|S005|S006|2026-01-13 11:00|WiFi credentials updated and resent to customer||2026-01-13 12:00
+IA010|I003|S005|S007|2026-03-24 09:00|New HDMI cable and wireless display adapter ordered for Room A||NULL
+IA011|I011|S005|S008|2026-03-15 09:00|HVAC technician assigned to inspect and repair AC unit||NULL
+IA012|I012|S005|S007|2026-03-15 10:38|ok||2026-03-15 12:18
+IA013|I013|S010|S006|2026-03-15 11:49|we will do it||2026-03-15 11:50
+IA014|I014|S010|S009|2026-03-15 15:21|our man will fix it dont worry||2026-03-15 15:29
+IA015|I017|S010|S006|2026-03-16 11:09|we will do it right now|Done|2026-03-16 11:11

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.admin.BookingOverviewController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER" style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="A" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Admin" styleClass="lbl-username"/>
+                <Label text="Administrator" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"        styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Staff Management" styleClass="nav-item"         onAction="#goToStaffManagement"/>
+                <Button text="  Customer Management"  styleClass="nav-item"         onAction="#goToUserManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  All Bookings"     styleClass="nav-item, active" onAction="#goToBookings"/>
+                <Button text="  Sales Dashboard"   styleClass="nav-item"         onAction="#goToSales"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="All Bookings" styleClass="lbl-page-title"/>
+                    <Label text="View and filter all customer bookings" styleClass="lbl-page-sub"/>
+                </VBox>
+                <ComboBox fx:id="statusFilter" styleClass="combo-box" prefWidth="150"
+                          promptText="Filter status" onAction="#applyFilter"/>
+                <TextField fx:id="searchField" styleClass="search-field"
+                           promptText="Search by ID or customer..." onKeyReleased="#handleSearch"/>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colId"      text="Booking ID"  prefWidth="90"/>
+                            <TableColumn fx:id="colCust"    text="Customer"    prefWidth="110"/>
+                            <TableColumn fx:id="colHall"    text="Hall"        prefWidth="150"/>
+                            <TableColumn fx:id="colStart"   text="Event Start" prefWidth="140"/>
+                            <TableColumn fx:id="colEnd"     text="Event End"   prefWidth="140"/>
+                            <TableColumn fx:id="colHours"   text="Hours"       prefWidth="60"/>
+                            <TableColumn fx:id="colAmount"  text="Amount"      prefWidth="100"/>
+                            <TableColumn fx:id="colStatus"  text="Status"      prefWidth="90"/>
+                        </columns>
+                        <placeholder><Label text="No bookings found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

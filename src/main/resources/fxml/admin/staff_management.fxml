@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.admin.StaffManagementController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER" style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="A" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Admin" styleClass="lbl-username"/>
+                <Label text="Administrator" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"        styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Staff Management" styleClass="nav-item, active" onAction="#goToStaffManagement"/>
+                <Button text="  Customer Management"  styleClass="nav-item"         onAction="#goToUserManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  All Bookings"     styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  Sales Dashboard"   styleClass="nav-item"         onAction="#goToSales"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Staff Management" styleClass="lbl-page-title"/>
+                    <Label text="Create and manage scheduler and manager accounts" styleClass="lbl-page-sub"/>
+                </VBox>
+                <TextField fx:id="searchField" styleClass="search-field"
+                           promptText="Search staff..." onKeyReleased="#handleSearch"/>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="staffTable" VBox.vgrow="ALWAYS" styleClass="table-view"
+                               onMouseClicked="#onRowSelected">
+                        <columns>
+                            <TableColumn fx:id="colStaffId"  text="Staff ID"   prefWidth="80"/>
+                            <TableColumn fx:id="colName"     text="Full Name"  prefWidth="160"/>
+                            <TableColumn fx:id="colRole"     text="Role"       prefWidth="100"/>
+                            <TableColumn fx:id="colDept"     text="Department" prefWidth="110"/>
+                            <TableColumn fx:id="colEmail"    text="Email"      prefWidth="200"/>
+                            <TableColumn fx:id="colHire"     text="Hire Date"  prefWidth="100"/>
+                            <TableColumn fx:id="colActive"   text="Status"     prefWidth="80"/>
+                        </columns>
+                        <placeholder><Label text="No staff found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                    </TableView>
+                </VBox>
+                <VBox styleClass="form-card" spacing="12">
+                    <Label text="Create New Staff Account" styleClass="form-section-title"/>
+                    <GridPane hgap="12" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Full Name" styleClass="field-label"/>
+                            <TextField fx:id="fieldName" styleClass="field-input" promptText="Full name"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Email" styleClass="field-label"/>
+                            <TextField fx:id="fieldEmail" styleClass="field-input" promptText="staff@hallsymphony.com"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <Label text="Password" styleClass="field-label"/>
+                            <PasswordField fx:id="fieldPassword" styleClass="field-input" promptText="Min 6 chars"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <Label text="Phone" styleClass="field-label"/>
+                            <TextField fx:id="fieldPhone" styleClass="field-input" promptText="01X-XXXXXXX"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Role" styleClass="field-label"/>
+                            <ComboBox fx:id="comboRole" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="Department" styleClass="field-label"/>
+                            <TextField fx:id="fieldDept" styleClass="field-input" promptText="e.g. Scheduling"/>
+                        </VBox>
+                    </GridPane>
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Clear"          styleClass="btn-clear"  onAction="#handleClear"/>
+                        <Button text="Block / Unblock" styleClass="btn-update" onAction="#handleToggleBlock"/>
+                        <Button text="Delete Account" styleClass="btn-delete" onAction="#handleDelete"/>
+                        <Button text="Create Account" styleClass="btn-add"    onAction="#handleCreate"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

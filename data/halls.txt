@@ -1,0 +1,9 @@
+H001|Auditorium 101|AUDITORIUM|1000|300.00|Fully equipped with stage sound and lighting system|true|S003
+H002|Grand Banquet Hall|BANQUET_HALL|300|100.00|Air-conditioned with round tables and buffet setup|true|S003
+H003|Meeting Room A|MEETING_ROOM|30|50.00|Projector whiteboard and video conferencing|true|S004
+H004|Meeting Room B|MEETING_ROOM|30|50.00|Projector whiteboard and flip chart|true|S004
+H005|VIP Lounge|BANQUET_HALL|80|150.00|Premium setup for exclusive events|true|S005
+H006|Auditorium 102|AUDITORIUM|1000|300.00|Fully equipped with stage sound and lighting system|true|S005
+H007|Grand Hall|BANQUET_HALL|1000|300.00|hall|true|S005
+H008|Grand Hall 2|BANQUET_HALL|1000|300.00|hall|true|S005
+H009|Sunil's Grand Hall|BANQUET_HALL|80|150.00|everything you need|true|S010

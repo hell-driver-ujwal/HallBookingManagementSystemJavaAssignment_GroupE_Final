@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.ProfileController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER" style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item"         onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item"         onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item, active" onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox spacing="2">
+                    <Label text="My Profile" styleClass="lbl-page-title"/>
+                    <Label text="Update your account information" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+                <VBox styleClass="form-card" spacing="14" maxWidth="580">
+                    <Label text="Account Details" styleClass="form-section-title"/>
+                    <GridPane hgap="12" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Full Name" styleClass="field-label"/>
+                            <TextField fx:id="fieldFullName" styleClass="field-input"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Email" styleClass="field-label"/>
+                            <TextField fx:id="fieldEmail" styleClass="field-input-readonly" editable="false"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Phone Number" styleClass="field-label"/>
+                            <TextField fx:id="fieldPhone" styleClass="field-input"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="Address" styleClass="field-label"/>
+                            <TextField fx:id="fieldAddress" styleClass="field-input"/>
+                        </VBox>
+                    </GridPane>
+
+                    <Label text="Change Password" styleClass="form-section-title"
+                           style="-fx-padding:10 0 0 0;"/>
+                    <GridPane hgap="12" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="New Password (leave blank to keep current)" styleClass="field-label"/>
+                            <PasswordField fx:id="fieldNewPassword" styleClass="field-input"
+                                           promptText="New password (min 6 chars)"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Confirm New Password" styleClass="field-label"/>
+                            <PasswordField fx:id="fieldConfirmPassword" styleClass="field-input"
+                                           promptText="Confirm new password"/>
+                        </VBox>
+                    </GridPane>
+
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Save Changes" styleClass="btn-update" onAction="#handleSave"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

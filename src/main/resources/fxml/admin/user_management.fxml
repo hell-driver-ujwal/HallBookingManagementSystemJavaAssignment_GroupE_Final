@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.admin.UserManagementController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER" style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="A" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Admin" styleClass="lbl-username"/>
+                <Label text="Administrator" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"           styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Staff Management"    styleClass="nav-item"         onAction="#goToStaffManagement"/>
+                <Button text="  Customer Management" styleClass="nav-item, active" onAction="#goToUserManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  All Bookings"        styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  Sales Dashboard"   styleClass="nav-item"         onAction="#goToSales"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="10">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Customer Management" styleClass="lbl-page-title"/>
+                    <Label text="View, block and delete customer accounts" styleClass="lbl-page-sub"/>
+                </VBox>
+                <TextField fx:id="searchField" styleClass="search-field"
+                           promptText="Search by name or phone..." onKeyReleased="#handleSearch"/>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="userTable" VBox.vgrow="ALWAYS" styleClass="table-view"
+                               onMouseClicked="#onRowSelected">
+                        <columns>
+                            <TableColumn fx:id="colUserId"    text="Customer ID"  prefWidth="100"/>
+                            <TableColumn fx:id="colName"      text="Full Name"    prefWidth="160"/>
+                            <TableColumn fx:id="colEmail"     text="Email"        prefWidth="200"/>
+                            <TableColumn fx:id="colPhone"     text="Phone"        prefWidth="120"/>
+                            <TableColumn fx:id="colAddress"   text="Address"      prefWidth="180"/>
+                            <TableColumn fx:id="colCreated"   text="Registered"   prefWidth="100"/>
+                            <TableColumn fx:id="colLastLogin" text="Last Login"   prefWidth="100"/>
+                            <TableColumn fx:id="colStatus"    text="Status"       prefWidth="80"/>
+                        </columns>
+                        <placeholder><Label text="No customers found." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                    </TableView>
+                </VBox>
+                <HBox styleClass="form-card" spacing="12" alignment="CENTER_LEFT">
+                    <Label text="Selected: " styleClass="field-label"/>
+                    <Label fx:id="lblSelected" text="None" style="-fx-font-size:12px;-fx-text-fill:#1a2820;" HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text=""/>
+                    <Button text="Block / Unblock"  styleClass="btn-update" onAction="#handleToggleBlock"/>
+                    <Button text="Delete Customer"  styleClass="btn-delete" onAction="#handleDelete"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

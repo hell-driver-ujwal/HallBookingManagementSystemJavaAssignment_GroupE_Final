@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.BookingConfirmationController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+
+    <!-- ── Sidebar ── -->
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item" onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item" onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item, active" onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item" onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item" onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ── Main content ── -->
+    <center>
+        <VBox>
+            <!-- Topbar -->
+            <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="12">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Booking Confirmed!" styleClass="lbl-page-title"
+                           style="-fx-text-fill:#1a6a3e;"/>
+                    <Label text="Your booking and payment have been recorded successfully"
+                           styleClass="lbl-page-sub"/>
+                </VBox>
+                <!-- Success badge -->
+                <Label text="  CONFIRMED"
+                       style="-fx-background-color:#e8f5e9;-fx-text-fill:#1a6a3e;
+                              -fx-font-size:12px;-fx-font-weight:bold;
+                              -fx-background-radius:20;-fx-padding:6 14 6 14;
+                              -fx-border-color:#2d7a50;-fx-border-radius:20;-fx-border-width:1;"/>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="16">
+
+                    <!-- ── Receipt header card ── -->
+                    <VBox styleClass="receipt-card" spacing="0">
+                        <!-- Stripe header -->
+                        <HBox style="-fx-background-color:#1a6a3e;-fx-background-radius:8 8 0 0;
+                                     -fx-padding:14 20 14 20;" alignment="CENTER_LEFT" spacing="12">
+                            <VBox HBox.hgrow="ALWAYS" spacing="3">
+                                <Label text="Hall Symphony Sdn Bhd"
+                                       style="-fx-font-size:15px;-fx-font-weight:bold;-fx-text-fill:white;"/>
+                                <Label text="Official Booking Receipt"
+                                       style="-fx-font-size:11px;-fx-text-fill:#a8d5b8;"/>
+                            </VBox>
+                            <VBox alignment="CENTER_RIGHT" spacing="2">
+                                <Label text="RECEIPT NO."
+                                       style="-fx-font-size:10px;-fx-text-fill:#a8d5b8;"/>
+                                <Label fx:id="lblReceiptNumber" text="—"
+                                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:white;"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Date row -->
+                        <HBox style="-fx-background-color:#f8fdf9;-fx-padding:8 20 8 20;
+                                     -fx-border-color:#e0f0e6;-fx-border-width:0 0 1 0;"
+                              alignment="CENTER_LEFT">
+                            <Label text="Payment Date: " styleClass="field-label"/>
+                            <Label fx:id="lblPaymentDate" text="—"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </HBox>
+
+                        <!-- Two-column detail grid -->
+                        <GridPane hgap="0" vgap="0" style="-fx-padding:0;">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+
+                            <!-- LEFT: Booking details -->
+                            <VBox spacing="0" style="-fx-padding:18 16 18 20;
+                                                      -fx-border-color:transparent #e8e4df transparent transparent;
+                                                      -fx-border-width:0 1 0 0;"
+                                  GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="BOOKING DETAILS"
+                                       style="-fx-font-size:10px;-fx-font-weight:bold;
+                                              -fx-text-fill:#6b8f7a;-fx-padding:0 0 10 0;"/>
+
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Booking ID" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblBookingId" text="—"
+                                           style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Customer" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblCustomerName" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;" wrapText="true"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Customer ID" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblCustomerId" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#888;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Hall" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblHallName" text="—"
+                                           style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;" wrapText="true"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Hall Type" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblHallType" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Capacity" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblCapacity" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Event Date" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblEventDate" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Event Time" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblEventTime" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Duration" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblDuration" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+                            </VBox>
+
+                            <!-- RIGHT: Payment details -->
+                            <VBox spacing="0" style="-fx-padding:18 20 18 16;"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="PAYMENT DETAILS"
+                                       style="-fx-font-size:10px;-fx-font-weight:bold;
+                                              -fx-text-fill:#6b8f7a;-fx-padding:0 0 10 0;"/>
+
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Payment ID" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblPaymentId" text="—"
+                                           style="-fx-font-size:12px;-fx-text-fill:#888;"/>
+                                </HBox>
+                                <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                    <Label text="Method" styleClass="field-label" prefWidth="110"/>
+                                    <Label fx:id="lblPaymentMethod" text="—"
+                                           style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                                </HBox>
+
+                                <!-- Credit card section -->
+                                <VBox fx:id="sectionCreditCard" spacing="0" visible="false" managed="false">
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Cardholder" styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblCardHolder" text="—"
+                                               style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                    </HBox>
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Card No." styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblMaskedCard" text="—"
+                                               style="-fx-font-size:12px;-fx-font-family:monospace;-fx-text-fill:#1a2820;"/>
+                                    </HBox>
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Expiry" styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblExpiry" text="—"
+                                               style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Online transfer section -->
+                                <VBox fx:id="sectionOnlineTransfer" spacing="0" visible="false" managed="false">
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Account Name" styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblAccountName" text="—"
+                                               style="-fx-font-size:12px;-fx-text-fill:#1a2820;" wrapText="true"/>
+                                    </HBox>
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Bank" styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblBankName" text="—"
+                                               style="-fx-font-size:12px;-fx-text-fill:#1a2820;" wrapText="true"/>
+                                    </HBox>
+                                    <HBox spacing="8" style="-fx-padding:5 0 5 0;">
+                                        <Label text="Reference" styleClass="field-label" prefWidth="110"/>
+                                        <Label fx:id="lblReference" text="—"
+                                               style="-fx-font-size:12px;-fx-font-family:monospace;-fx-text-fill:#1a2820;"/>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Total paid — highlighted -->
+                                <VBox style="-fx-background-color:#f0faf4;-fx-background-radius:8;
+                                             -fx-border-color:#2d7a50;-fx-border-radius:8;
+                                             -fx-border-width:1;-fx-padding:12 14 12 14;-fx-margin:12 0 0 0;"
+                                      spacing="3">
+                                    <Label text="TOTAL PAID"
+                                           style="-fx-font-size:10px;-fx-font-weight:bold;-fx-text-fill:#6b8f7a;"/>
+                                    <Label fx:id="lblAmountPaid" text="RM 0.00"
+                                           style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill:#1a6a3e;"/>
+                                </VBox>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- ── Action buttons ── -->
+                    <HBox spacing="12" alignment="CENTER_RIGHT">
+                        <Button text="Export Receipt (.txt)"
+                                styleClass="btn-update"
+                                style="-fx-font-size:13px;-fx-padding:10 22 10 22;"
+                                onAction="#handleExportReceipt"/>
+                        <Button text="View My Bookings"
+                                styleClass="btn-primary"
+                                style="-fx-font-size:13px;-fx-padding:10 22 10 22;"
+                                onAction="#goToBookings"/>
+                    </HBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

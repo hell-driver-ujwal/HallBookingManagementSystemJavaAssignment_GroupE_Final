@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.PaymentController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item"         onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item"         onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item"         onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Complete Your Payment" styleClass="lbl-page-title"/>
+                    <Label text="Your booking is confirmed — please complete payment details below"
+                           styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="content-area" spacing="14">
+
+                    <!-- Booking Summary Card -->
+                    <VBox styleClass="card" spacing="0">
+                        <HBox style="-fx-padding:12 16 12 16;-fx-border-color:transparent transparent #e8e4df transparent;-fx-border-width:0 0 1 0;" alignment="CENTER_LEFT">
+                            <Label text="Booking Summary"
+                                   style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"
+                                   HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                        <GridPane hgap="20" vgap="8" style="-fx-padding:14 16 14 16;">
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="140"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                                <ColumnConstraints prefWidth="140"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <Label text="Booking ID"   styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label fx:id="lblBookingId" text="—" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;-fx-font-weight:bold;"/>
+                            <Label text="Hall"         styleClass="field-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                            <Label fx:id="lblHallName"  text="—" GridPane.columnIndex="3" GridPane.rowIndex="0"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+
+                            <Label text="Date"         styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label fx:id="lblEventDate" text="—" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                            <Label text="Time"         styleClass="field-label" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                            <Label fx:id="lblEventTime" text="—" GridPane.columnIndex="3" GridPane.rowIndex="1"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+
+                            <Label text="Duration"     styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label fx:id="lblDuration"  text="—" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                            <Label text="Payment Method" styleClass="field-label" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                            <Label fx:id="lblMethod"     text="—" GridPane.columnIndex="3" GridPane.rowIndex="2"
+                                   style="-fx-font-size:12px;-fx-text-fill:#1a2820;"/>
+                        </GridPane>
+                        <!-- Total amount highlighted -->
+                        <HBox style="-fx-padding:10 16 14 16;-fx-background-color:#f0f9f4;-fx-border-color:#e8e4df transparent transparent transparent;-fx-border-width:1 0 0 0;"
+                              alignment="CENTER_LEFT">
+                            <Label text="Total Amount Due:" styleClass="field-label" style="-fx-font-size:13px;"/>
+                            <Label fx:id="lblAmount" text="RM 0.00"
+                                   style="-fx-font-size:20px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;-fx-padding:0 0 0 12;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ══ CREDIT CARD SECTION ══ -->
+                    <VBox fx:id="sectionCreditCard" styleClass="form-card" spacing="14"
+                          visible="false" managed="false">
+                        <Label text="💳  Credit Card Details"
+                               style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+
+                        <VBox spacing="4">
+                            <Label text="Cardholder Name" styleClass="field-label"/>
+                            <TextField fx:id="fieldCardHolder" styleClass="field-input"
+                                       promptText="As printed on card (e.g. AHMAD RIZAL BIN ALI)"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Card Number" styleClass="field-label"/>
+                            <TextField fx:id="fieldCardNumber" styleClass="field-input"
+                                       promptText="16-digit card number"/>
+                        </VBox>
+
+                        <HBox spacing="14">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Expiry Date (MM/YY)" styleClass="field-label"/>
+                                <TextField fx:id="fieldExpiry" styleClass="field-input"
+                                           promptText="08/27"/>
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="CVV" styleClass="field-label"/>
+                                <PasswordField fx:id="fieldCVV" styleClass="field-input"
+                                               promptText="3 digits (not stored)"/>
+                            </VBox>
+                        </HBox>
+
+                        <Label text="🔒  Your card details are processed securely. CVV is never stored."
+                               style="-fx-font-size:11px;-fx-text-fill:#888;-fx-padding:0;"/>
+
+                        <Label fx:id="ccErrorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                            <Button text="Cancel" styleClass="btn-clear" onAction="#handleCancel"/>
+                            <Button text="Pay Now  RM " styleClass="btn-primary" onAction="#handlePayCreditCard"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ══ ONLINE TRANSFER SECTION ══ -->
+                    <VBox fx:id="sectionOnlineTransfer" styleClass="form-card" spacing="14"
+                          visible="false" managed="false">
+                        <Label text="🏦  Online Transfer"
+                               style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+
+                        <!-- Our service bank details (read-only) -->
+                        <VBox spacing="8"
+                              style="-fx-background-color:#f0f9f4;-fx-border-color:#b2dfce;-fx-border-radius:6;-fx-background-radius:6;-fx-padding:14;">
+                            <Label text="Transfer Payment To:"
+                                   style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;"/>
+                            <GridPane hgap="16" vgap="6">
+                                <columnConstraints>
+                                    <ColumnConstraints prefWidth="130"/>
+                                    <ColumnConstraints hgrow="ALWAYS"/>
+                                </columnConstraints>
+                                <Label text="Bank:"         styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <Label fx:id="lblServiceBank" text="—" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                                <Label text="Account Name:" styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <Label fx:id="lblServiceAccount" text="—" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                       style="-fx-font-size:12px;-fx-font-weight:bold;-fx-text-fill:#1a2820;"/>
+                                <Label text="Account No:"  styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                <Label fx:id="lblServiceAccountNo" text="—" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;"/>
+                                <Label text="Amount:"      styleClass="field-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                <Label fx:id="lblTransferAmount" text="—" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                                       style="-fx-font-size:14px;-fx-font-weight:bold;-fx-text-fill:#1e5c3a;"/>
+                            </GridPane>
+                        </VBox>
+
+                        <Label text="After transferring, fill in your details below:"
+                               style="-fx-font-size:12px;-fx-text-fill:#555;"/>
+
+                        <HBox spacing="14">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Your Account Name" styleClass="field-label"/>
+                                <TextField fx:id="fieldAccountName" styleClass="field-input"
+                                           promptText="Your bank account name"/>
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Your 14-Digit Account Number" styleClass="field-label"/>
+                                <TextField fx:id="fieldAccountNumber" styleClass="field-input"
+                                           promptText="14-digit account number"
+                                           onKeyReleased="#onAccountNumberChanged"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="14">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Your Bank (auto-detected)" styleClass="field-label"/>
+                                <TextField fx:id="fieldBankName" styleClass="field-input"
+                                           promptText="Auto-detected from account number"
+                                           editable="false"
+                                           style="-fx-background-color:#f5f5f5;"/>
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Reference Number (use this when transferring)" styleClass="field-label"/>
+                                <TextField fx:id="fieldReference" styleClass="field-input"
+                                           editable="false"
+                                           style="-fx-background-color:#f5f5f5;-fx-font-weight:bold;"/>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="4">
+                            <Label text="Amount Confirmation (enter exact amount you transferred)" styleClass="field-label"/>
+                            <TextField fx:id="fieldAmountConfirm" styleClass="field-input"
+                                       promptText="e.g. 300.00"/>
+                        </VBox>
+
+                        <Label text="ℹ  Enter the reference number above when making the transfer. It helps us match your payment."
+                               style="-fx-font-size:11px;-fx-text-fill:#888;" wrapText="true"/>
+
+                        <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                            <Button text="Cancel" styleClass="btn-clear" onAction="#handleCancel"/>
+                            <Button text="Confirm Transfer" styleClass="btn-primary" onAction="#handlePayTransfer"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

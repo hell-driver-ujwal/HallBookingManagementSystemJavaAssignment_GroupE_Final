@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.scheduler.AvailabilityController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label text="S" style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Scheduler" styleClass="lbl-username"/>
+                <Label text="Scheduler" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"       styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Hall Management" styleClass="nav-item"         onAction="#goToHallManagement"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Availability"    styleClass="nav-item, active" onAction="#goToAvailability"/>
+                <Button text="  Maintenance"     styleClass="nav-item"         onAction="#goToMaintenance"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Issues"       styleClass="nav-item"         onAction="#goToIssues"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="Hall Availability Schedules" styleClass="lbl-page-title"/>
+                    <Label text="Set weekly operating days and hours for each hall"
+                           styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+
+                <!-- Rules table -->
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="ruleTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colHallId"    text="Hall ID"   prefWidth="80"/>
+                            <TableColumn fx:id="colHallName"  text="Hall Name" prefWidth="180"/>
+                            <TableColumn fx:id="colOpenDays"  text="Open Days" prefWidth="280"/>
+                            <TableColumn fx:id="colOpenTime"  text="Opens"     prefWidth="90"/>
+                            <TableColumn fx:id="colCloseTime" text="Closes"    prefWidth="90"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No schedules set yet." style="-fx-text-fill:#b0ada8;"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+
+                <!-- Edit form -->
+                <VBox styleClass="form-card" spacing="12">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Set Schedule for Hall:" styleClass="form-section-title"/>
+                        <ComboBox fx:id="comboHall" styleClass="combo-box"
+                                  prefWidth="260" onAction="#onHallSelected"/>
+                    </HBox>
+
+                    <Label fx:id="lblCurrentRule" text=""
+                           style="-fx-text-fill:#2d7a50;-fx-font-size:11.5px;-fx-font-weight:bold;"/>
+
+                    <!-- Day checkboxes -->
+                    <VBox spacing="6">
+                        <Label text="Open Days" styleClass="field-label"/>
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <CheckBox fx:id="chkMon" text="Monday"/>
+                            <CheckBox fx:id="chkTue" text="Tuesday"/>
+                            <CheckBox fx:id="chkWed" text="Wednesday"/>
+                            <CheckBox fx:id="chkThu" text="Thursday"/>
+                            <CheckBox fx:id="chkFri" text="Friday"/>
+                            <CheckBox fx:id="chkSat" text="Saturday"/>
+                            <CheckBox fx:id="chkSun" text="Sunday"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Open / close time -->
+                    <HBox spacing="30" alignment="CENTER_LEFT">
+                        <VBox spacing="4">
+                            <Label text="Opens at  (HH : MM)" styleClass="field-label"/>
+                            <HBox spacing="6" alignment="CENTER_LEFT">
+                                <Spinner fx:id="openHour" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                                <Label text=":"
+                                       style="-fx-font-size:17px;-fx-font-weight:bold;-fx-text-fill:#555;"/>
+                                <Spinner fx:id="openMin" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                            </HBox>
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label text="Closes at  (HH : MM)" styleClass="field-label"/>
+                            <HBox spacing="6" alignment="CENTER_LEFT">
+                                <Spinner fx:id="closeHour" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                                <Label text=":"
+                                       style="-fx-font-size:17px;-fx-font-weight:bold;-fx-text-fill:#555;"/>
+                                <Spinner fx:id="closeMin" prefWidth="90" prefHeight="34"
+                                         styleClass="field-input" editable="true"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Delete Selected Rule" styleClass="btn-delete"
+                                onAction="#handleDelete"/>
+                        <Button text="Save Schedule"        styleClass="btn-primary"
+                                onAction="#handleSave"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hallbooking.controllers.customer.IssueReportController"
+            stylesheets="@../../css/app.css"
+            prefWidth="980" prefHeight="640">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-top">
+                <StackPane styleClass="avatar-circle" alignment="CENTER"
+                           style="-fx-min-width:54;-fx-min-height:54;-fx-max-width:54;-fx-max-height:54;">
+                    <Label fx:id="lblAvatarInitial" text="C"
+                           style="-fx-text-fill:white;-fx-font-size:20px;-fx-font-weight:bold;"/>
+                </StackPane>
+                <Label text="Welcome back," styleClass="lbl-welcome"/>
+                <Label fx:id="lblUsername" text="Customer" styleClass="lbl-username"/>
+                <Label text="Customer" styleClass="lbl-role"/>
+            </VBox>
+            <VBox styleClass="nav-container" VBox.vgrow="ALWAYS">
+                <Button text="  Dashboard"    styleClass="nav-item"         onAction="#goToDashboard"/>
+                <Button text="  Browse Halls" styleClass="nav-item"         onAction="#goToBrowse"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Bookings"  styleClass="nav-item"         onAction="#goToBookings"/>
+                <Button text="  My Issues"    styleClass="nav-item, active" onAction="#goToIssues"/>
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  My Profile"   styleClass="nav-item"         onAction="#goToProfile"/>
+            </VBox>
+            <VBox style="-fx-padding:8 10 14 10;">
+                <Pane styleClass="sidebar-divider"/>
+                <Button text="  Logout" styleClass="btn-logout" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="My Issues" styleClass="lbl-page-title"/>
+                    <Label text="Report and track hall-related issues" styleClass="lbl-page-sub"/>
+                </VBox>
+            </HBox>
+
+            <VBox styleClass="content-area" VBox.vgrow="ALWAYS" spacing="14">
+
+                <!-- Issues table -->
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="issueTable" VBox.vgrow="ALWAYS" styleClass="table-view"
+                               onMouseClicked="#onRowSelected">
+                        <columns>
+                            <TableColumn fx:id="colId"       text="Issue ID"  prefWidth="80"/>
+                            <TableColumn fx:id="colBooking"  text="Booking"   prefWidth="90"/>
+                            <TableColumn fx:id="colHall"     text="Hall"      prefWidth="110"/>
+                            <TableColumn fx:id="colTitle"    text="Title"     prefWidth="160"/>
+                            <TableColumn fx:id="colDate"     text="Reported"  prefWidth="100"/>
+                            <TableColumn fx:id="colStatus"   text="Status"    prefWidth="100"/>
+                            <TableColumn fx:id="colResponse" text="Response"  prefWidth="200"/>
+                        </columns>
+                        <placeholder><Label text="No issues reported." style="-fx-text-fill:#b0ada8;"/></placeholder>
+                    </TableView>
+                </VBox>
+
+                <!-- Report form -->
+                <VBox styleClass="form-card" spacing="12">
+                    <Label text="Report a New Issue" styleClass="form-section-title"/>
+
+                    <GridPane hgap="12" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="40" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="35" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="25" hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Related Booking" styleClass="field-label"/>
+                            <ComboBox fx:id="comboBooking" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Issue Title" styleClass="field-label"/>
+                            <TextField fx:id="fieldTitle" styleClass="field-input"
+                                       promptText="Brief title of your issue"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <Label text="Priority" styleClass="field-label"/>
+                            <ComboBox fx:id="comboPriority" styleClass="combo-box" maxWidth="10000"/>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                              GridPane.columnSpan="3">
+                            <Label text="Description — describe the issue in detail"
+                                   styleClass="field-label"/>
+                            <TextArea fx:id="fieldDesc" styleClass="field-textarea"
+                                      wrapText="true" prefHeight="72"
+                                      promptText="Please describe what happened..."/>
+                        </VBox>
+                    </GridPane>
+
+                    <Label fx:id="errorLabel" styleClass="lbl-error" text="" wrapText="true"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button text="Clear"        styleClass="btn-clear"   onAction="#handleClear"/>
+                        <Button text="Submit Issue"  styleClass="btn-primary" onAction="#handleSubmit"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
